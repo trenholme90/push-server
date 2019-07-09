@@ -101,7 +101,7 @@ function sendPushNotification(msg) {
   .catch(function(err){
     console.log(err)
   })
-} 
+}
 
 // Send a message to the device corresponding to the provided
 // registration token.
