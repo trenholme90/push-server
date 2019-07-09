@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <!-- <link rel="manifest" href="/manifest.json"> -->
+  <title>jet2-pwa</title>
+  <style>
+  
+    html {
+      height: 100%;
+    }
+
+    html, body {
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      border-top: 3px solid red;
+    }
+
+    body {
+      min-height: auto;
+      box-sizing: border-box;
+      font-family: sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2em;
+    }
+
+    header {
+      padding: 115px 16px 32px 16px;
+      box-sizing: border-box;
+      background-color: #37474f;
+      color: white;
+    }
+
+    main, header > h1, footer > div {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    main {
+      padding: 24px;
+    }
+
+    pre {
+      white-space: pre-wrap;
+    }
+
+    .mdl-textfield {
+      width: 100%;
+      position: relative;
+    }
+
+    .mdl-textfield__input {
+      min-height: 116px;
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    .mdl-textfield__input:focus + label {
+      display: none;
+    }
+
+    button {
+      width: 200px;
+      height: 50px;
+      background: red;
+      color: white;
+      font-weight: 500;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.5s ease;
+    }
+
+    button:hover {
+      background: #b30505;
+      transition: background 0.5s ease;
+    }
+
+    section {
+      margin-bottom: 96px;
+    }
+
+    section h6 {
+      margin-bottom: 0;
+    }
+
+    footer {
+      padding: 24px;
+      color: #ecf0f1;
+      background-color: #bdc3c7;
+    }
+
+    footer a {
+      color: inherit;
+    }
+
+    .hide {
+      display: none;
+    }
+
+  </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h1>Sitecore Push Centre</h1>
+    
+        <h3 class="mdl-textfield__label" for="push-data">Add Push Text Here...</h3>
+        <form action="" id="push-form">
+          <div class="mdl-textfield mdl-js-textfield">
+            <textarea class="mdl-textfield__input" type="text" name="message" rows="3" id="push-data"></textarea>
+          </div>
+          <p>
+            <button class="js-send-push mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+              Send Push Message
+            </button>
+          </p>
+        </form>
+      </section>
+      <section>
+        <!-- <h3>Subscribe to push notifications</h3>
+        <p>
+          <button class="js-subscribe mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+            Subscribe
+          </button>
+        </p> -->
+        <p id="response">
+        </p>
+      </section>
+    </main>
+
+  <!-- <script type="text/javascript" src="./dist/utils.js"></script> -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+    var pushForm = document.querySelector('#push-form');
+    var pushMessage = document.querySelector('#push-data');
+    var data = 'Push message now!'
+
+    pushForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      console.log(pushMessage.value)
+      socket.emit('sendMessage', pushMessage.value)
+      console.log('after push')
+    });
+
+    socket.on('responseMessage', function(data){
+      var responseDisplay = document.querySelector('#response')
+      var responseDisplayText = responseDisplay.innerHTML
+      responseDisplay.innerHTML = data
+    })
+  </script>
+  </body>
+</html>
