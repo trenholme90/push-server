@@ -5,12 +5,37 @@ var admin = require("firebase-admin");
 // var express = require('express');
 // var router = express.Router();
 var express = require('express');
-const app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http)
+const pushServer = express();
+const subscribeServer = express();
+var httpPush = require('http').Server(pushServer);
+var httpSubscribe = require('http').Server(subscribeServer);
+var io = require('socket.io')(httpPush)
 
 // Initialize Firebase
 var serviceAccount = require("./pwa-push-notifications-firebase.json");
+
+// Load the Push Server page
+pushServer.get('/', function (req, res) {
+  res.sendFile(__dirname + '/index.html');
+});
+
+// Push Server on localhost:3000
+httpPush.listen(3000, function(){
+  console.log('listening on *:3000');
+});
+
+// Load the Subscribe page
+subscribeServer.get('/', function (req, res) {
+  res.sendFile(__dirname + '/subscribe/index.html');
+});
+
+// Get all files in subscribe
+subscribeServer.use(express.static('/subscribe'))
+
+// Subscribe Server on localhost:8080
+httpSubscribe.listen(8080, function(){
+  console.log('listening on *:8080');
+});
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -30,6 +55,8 @@ io.on('connection', function(socket) {
       }
     })
     .then( function(pushMessageSent) {
+      console.log('hello')
+      console.log(pushMessageSent)
       if(pushMessageSent) {
         console.log('Sent')
         socket.emit('responseMessage', "Thanks, you're message was sent!")
@@ -40,16 +67,6 @@ io.on('connection', function(socket) {
     })
   })
   console.log('a user connected');
-});
-
-// Load the UI
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
-});
-
-// display on localhost:3000
-http.listen(3000, function(){
-  console.log('listening on *:3000');
 });
 
 function sendPushNotification(msg) {
