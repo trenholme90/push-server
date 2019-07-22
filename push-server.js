@@ -30,7 +30,7 @@ subscribeServer.get('/', function (req, res) {
 });
 
 // Get all files in subscribe
-subscribeServer.use(express.static('/subscribe'))
+subscribeServer.use(express.static('./subscribe'))
 
 // Subscribe Server on localhost:8080
 httpSubscribe.listen(8080, function(){
