@@ -1,10 +1,10 @@
 const path = require('path');
 
 module.exports = {
-  entry: './index.js',
+  entry: './subscribe/subscribe.js',
   output: {
-    filename: 'index.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: 'subscribe.js',
+    path: path.resolve(__dirname, 'subscribe/dist')
   },
   mode: 'development',
   module :{
