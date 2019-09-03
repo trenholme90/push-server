@@ -2,8 +2,6 @@
 var firebase = require('firebase/app');
 require('firebase/database');
 var admin = require("firebase-admin");
-// var express = require('express');
-// var router = express.Router();
 var express = require('express');
 const pushServer = express();
 const subscribeServer = express();
@@ -54,19 +52,7 @@ io.on('connection', function(socket) {
         console.log(reject(err))
       }
     })
-    .then( function(pushMessageSent) {
-      console.log('hello')
-      console.log(pushMessageSent)
-      if(pushMessageSent) {
-        console.log('Sent')
-        socket.emit('responseMessage', "Thanks, you're message was sent!")
-      } else {
-        console.log("Something went wrong, please cntact you're nearest FED!")
-        socket.emit('responseMessage', "Something went wrong, please cntact you're nearest FED!")
-      }
-    })
   })
-  console.log('a user connected');
 });
 
 function sendPushNotification(msg) {
@@ -88,11 +74,9 @@ function sendPushNotification(msg) {
         reject(console.log(err))
       }
     })
-    console.log(tokenValues)
     return tokenValues
   })
   .then(function(registrationTokens) {
-    console.log(registrationTokens)
 
     var message = {
       data: {
@@ -109,10 +93,6 @@ function sendPushNotification(msg) {
       } catch(err) {
         reject(console.log(err))
       }
-    })
-    .then((isSent) => {
-      console.log(isSent)
-      return isSent
     })
   })
   .catch(function(err){

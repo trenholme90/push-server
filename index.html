@@ -4,8 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <!-- <link rel="manifest" href="/manifest.json"> -->
-  <title>jet2-pwa</title>
+  <title>Push Server</title>
   <style>
   
     html {
@@ -123,16 +122,6 @@
           </p>
         </form>
       </section>
-      <section>
-        <!-- <h3>Subscribe to push notifications</h3>
-        <p>
-          <button class="js-subscribe mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-            Subscribe
-          </button>
-        </p> -->
-        <p id="response">
-        </p>
-      </section>
     </main>
 
   <!-- <script type="text/javascript" src="./dist/utils.js"></script> -->
@@ -147,14 +136,7 @@
       event.preventDefault();
       console.log(pushMessage.value)
       socket.emit('sendMessage', pushMessage.value)
-      console.log('after push')
     });
-
-    socket.on('responseMessage', function(data){
-      var responseDisplay = document.querySelector('#response')
-      var responseDisplayText = responseDisplay.innerHTML
-      responseDisplay.innerHTML = data
-    })
   </script>
   </body>
 </html>
